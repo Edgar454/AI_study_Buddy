@@ -8,7 +8,7 @@ from collections import deque
 from contextlib import asynccontextmanager
 
 import asyncpg
-from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, status
+from fastapi import FastAPI, UploadFile, File, HTTPException, Depends, status , Header
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.hash import bcrypt
@@ -108,21 +108,54 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 
+
+# Helper function to authenticate a user , this function decide which routes the user get access to
 async def get_current_user(token: str = Depends(oauth2_scheme), db_pool=Depends(lambda: app.state.db_pool)):
     """
-    Get the currently authenticated user from the token.
+    Get the currently authenticated user from the token. This works for both users and services.
     """
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
+        role = payload.get("role")  # Check the role from the token
         if not username:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        
+        # Retrieve user from the database (if needed)
         user = await get_user(db_pool, username)
         if not user:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found")
+        
         return user
     except JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+    
+# Helper function to authenticate a service , this function decide which routes the service get access to
+async def get_current_service(token: str = Depends(oauth2_scheme)):
+    """
+    Custom dependency to ensure only the Celery service can update the cache.
+    """
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        role = payload.get("role")  # Check the role from the token
+        if not username:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
+        
+        # Ensure that the role is 'service' and check if the service name matches the expected service (e.g., Celery)
+        if role != "service":
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Permission denied: You are not a service user")
+        
+        if username != "celery_service":  # Ensure the request is coming from the Celery service
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Permission denied: Invalid service")
+        
+        return {"username": username, "role": role}
+    
+    except JWTError:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
+
+
+
 
 
 # Routes
@@ -156,7 +189,8 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     user = await authenticate_user(db_pool, form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-    access_token = create_access_token(data={"sub": user['username']}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    access_token = create_access_token(data={"sub": user['username'] ,
+                                              "role":user['role']}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     return {"access_token": access_token, "token_type": "bearer"}
 
 
@@ -189,8 +223,10 @@ async def process_material(file: UploadFile = File(...), current_user=Depends(ge
         file_path = Path(UPLOAD_DIR.name) / file.filename
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
+
         # Call the Celery task
-        task = process_file_task.delay(str(file_path))
+        task = process_file_task.delay(file_path = str(file_path),
+                                        user_id = user_id)
 
         # Store task ID in the cache to track progress
         processed_cache.setdefault(user_id, deque(maxlen=CACHE_SIZE)).append({
@@ -221,12 +257,15 @@ def get_task_status(task_id: str, current_user=Depends(get_current_user)):
         return {"status": task.state}
 
 @app.post("/update-task-result/{task_id}")
-async def update_task_result(task_id: str, payload: dict, current_user=Depends(get_current_user)):
+async def update_task_result(task_id: str,
+                            payload: dict,
+                            current_service =Depends(get_current_service)):
     """
     Update the task result in the cache.
     """
-    user_id = current_user["id"]
+    
     result = payload.get("result")
+    user_id = result['user_id']
     error = payload.get("error")
 
     # Update the cache for the user
@@ -235,10 +274,11 @@ async def update_task_result(task_id: str, payload: dict, current_user=Depends(g
         if entry.get("task_id") == task_id:
             # Update the entry with the final result or error
             if result:
-                entry.update({"result": result})
+                entry.update({"result": result['result']})
                 entry.pop("task_id", None)  # Remove task_id once completed
             elif error:
-                entry.update({"error": error})
+                print(error)
+                entry.update({"result": None})
                 entry.pop("task_id", None)
             break
 
