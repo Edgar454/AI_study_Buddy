@@ -1,0 +1,85 @@
+ingestion_task:
+  description: >
+    Analysez le matériel éducatif fourni par l'utilisateur : {study_material_path}, et transformez-le en un contenu enrichi et structuré pour une utilisation ultérieure :
+    1. Extraire et organiser les sections principales, idées clés, et concepts importants du matériel d'étude.
+    2. Compléter les idées principales en effectuant des recherches supplémentaires (par ex., via des outils comme Serper) pour fournir des exemples, des analogies ou des données pertinentes.
+    3. Enrichissez le contenu extrait avec des exemples concrets, des applications pratiques et des informations supplémentaires grâce à des recherches complémentaires.
+    4. Générer un document final structuré et clair qui résume les idées clés tout en ajoutant des informations complémentaires.
+    5. Assurez-vous que la sortie soit adaptée pour une exploration approfondie et facilement réutilisable par d'autres agents ou utilisateurs.
+  expected_output: >
+    Un texte structuré comprenant :
+    - Une introduction expliquant le sujet du matériel étudié.
+    - Les sections principales et sous-sections, avec les idées clés résumées sous forme de points.
+    - Des explications enrichies pour chaque section, incluant des exemples concrets et des liens vers des sources externes si nécessaire.
+    - Une conclusion résumant les apprentissages clés et proposant des actions ou questions exploratoires pour approfondir le sujet.
+  agent: ingestion_agent
+
+
+explanation_task:
+  description: >
+    Transforme le contenu structuré et enrichi fourni par l'agent d'ingestion en une explication technique et pédagogique, en suivant ces étapes :
+    1. **Exploitation du contenu fourni** : Utilise directement le contenu structuré reçu comme base. Ne reformule pas les concepts clés identifiés par l'agent d'ingestion, mais concentre-toi sur leur explication approfondie.
+    2. **Introduction captivante et concrète** : Commence par un exemple quotidien ou une situation courante pour ancrer immédiatement les concepts dans une réalité tangible. Guide le lecteur vers l'importance des concepts techniques en lien avec des expériences pratiques.
+    3. **Explication détaillée avec analogies et exemples** : Développe les concepts clés en fournissant des démonstrations détaillées, des exemples pratiques et des analogies simples. Explique chaque concept technique avec des éléments qui rendent la compréhension intuitive.
+    4. **Illustrations visuelles explicites et annotées** : Propose des visuels (diagrammes, graphiques, matrices) avec des annotations claires pour illustrer les concepts complexes de manière accessible. L'objectif est d'aider le lecteur à visualiser les idées.
+    5. **Progression logique fluide et naturelle** : Organise les explications pour assurer une transition naturelle entre les sections, en t’appuyant sur la structure existante tout en expliquant comment chaque étape s'inscrit dans le processus global.
+    6. **Conclusion pratique et pistes d'exploration** : Résume les points clés en mettant en lumière les applications concrètes et les perspectives futures. Propose des pistes d’exploration pratiques, comme des outils ou des techniques à tester en lien avec le sujet étudié dans des contextes réels.
+
+    **Consignes supplémentaires** :
+    - Oriente les explications vers un public technique mais non expert, en restant accessible et clair.
+    - Utilise un ton pédagogique et dynamique, en privilégiant les analogies concrètes et les exemples pour rendre les concepts plus facilement assimilables.
+    - Ajoute des liens vers des ressources ou des études de cas pour ceux qui souhaitent approfondir.
+  expected_output: >
+    Un texte structuré et détaillé comprenant :
+    - Une introduction captivante qui contextualise les concepts techniques avec des exemples concrets.
+    - Une explication approfondie des idées clés, avec des exemples et démonstrations numériques simples.
+    - Des visuels clairs, avec des annotations, pour illustrer les concepts complexes.
+    - Une progression logique cohérente et fluide entre les sections.
+    - Une conclusion qui synthétise les points clés, propose des applications concrètes, et suggère des perspectives d'approfondissement.
+  agent: explaination_specialist
+
+
+
+
+evaluation_task:
+  description: >
+    À partir des explications fournies par l'explaination_specialist , crée des questions à choix multiples (QCM) pour tester la compréhension du contenu.  
+    1. Identifie les concepts clés et les leçons importantes à retenir.  
+    2. Crée 30 questions avec quatre propositions de réponse, chacune ayant une bonne réponse.  
+    3. Classe les questions en trois niveaux de difficulté : Débutant, Intermédiaire et Avancé.  
+    4. Vérifie que chaque question est bien conçue pour évaluer la compréhension de manière pédagogique.
+  expected_output: >
+    Un fichier JSON structuré comprenant :
+    - Les niveaux de difficulté (Débutant, Intermédiaire, Avancé)
+    - La liste des questions
+    - Les propositions de réponse
+    - La bonne réponse mise en évidence
+  agent: evaluation_specialist
+  async_execution: True
+
+
+flashcard_creation_task:
+  description: >
+    À partir des explications fournies par l'explaination_specialist, crée des flashcards pour faciliter la mémorisation du contenu.  
+    1. Analyse les explications pour extraire les concepts clés et les leçons importantes.  
+    2. Crée entre 10 et 50 flashcards, chacune comprenant :  
+       - **Section** : Thématique ou partie du matériel.  
+       - **Recto (Question)** : Question basée sur le contenu.  
+       - **Verso (Réponse)** : Réponse correspondante.  
+    3. Classe les flashcards en trois niveaux de difficulté : Débutant, Intermédiaire, Avancé.  
+    4. Vérifie que les flashcards couvrent l'ensemble du matériel et qu'elles ont un objectif pédagogique clair.    
+  expected_output: >
+    Un fichier JSON contenant les flashcards organisées par niveau de difficulté, avec des questions et réponses précises. 
+  agent: flashcard_creator
+  async_execution: True
+
+
+summary_creation_task:
+  description: >
+    À partir des explications fournies par le specialist de l'explication , crée un résumé concis du contenu.  
+    1. Analyse le explications pour extraire les idées et points clés.  
+    2. Rédige un résumé bref de 4 à 5 lignes qui met en évidence les points essentiels.   
+  expected_output: >
+    Un résumé clair, concis et précis du matériel éducatif.  
+  agent: summarizer
+
