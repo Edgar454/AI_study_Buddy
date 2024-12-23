@@ -1,0 +1,9 @@
+crewai[tools]
+PyPDF2
+agentops
+python-multipart
+asyncpg
+passlib
+python-jose[cryptography]
+celery[redis]
+aioredis

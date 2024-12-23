@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'fastapi'
+    static_configs:
+      - targets: ['my-app:8000']  # Replace with your service name and port
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']  # Replace with your service name and port
+
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']  # Replace with your service name and port

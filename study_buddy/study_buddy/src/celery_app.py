@@ -7,6 +7,11 @@ import os
 from cachetools import TTLCache
 import time
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 
 # FastAPI Backend URL from environment variable
@@ -14,8 +19,8 @@ FASTAPI_BACKEND_URL = os.getenv("FASTAPI_BACKEND_URL", "http://localhost:8000/up
 
 celery_app = Celery(
     "tasks",
-    broker="redis://localhost:6379/0",
-    backend="redis://localhost:6379/0",
+    broker= "redis://localhost:6379/0",
+    backend= "redis://localhost:6379/0",
 )
 
 @celery_app.task
@@ -50,7 +55,7 @@ def get_auth_token():
     token_endpoint = "http://127.0.0.1:8000/token"
     payload = {
         "username": "celery_service",
-        "password": os.getenv("CELERY_PASSWORD")
+        "password": os.getenv("CELERY_SERVICE_ACCESS_PASSWORD")
     }
     try:
         response = requests.post(token_endpoint, data=payload, timeout=5)

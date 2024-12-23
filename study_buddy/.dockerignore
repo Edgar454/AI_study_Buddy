@@ -1,0 +1,10 @@
+materials
+outputs
+.gitignore
+report.md
+README.md
+study_buddy/README.md
+study_buddy/agentops.log
+study_buddy/training_data.pkl
+study_buddy/training_agents_data.pkl
+study_buddy/.venv

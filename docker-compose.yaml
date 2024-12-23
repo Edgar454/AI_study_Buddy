@@ -1,0 +1,96 @@
+services:
+  my-app:
+    build:
+      context: ./study_buddy
+      dockerfile: Dockerfile
+    container_name: study_buddy_app
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=redis
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL}
+      - CELERY_RESULT_BACKEND=${CELERY_RESULT_BACKEND}
+      - DATABASE_URL=${DATABASE_URL}
+      - SERPER_API_KEY=${SERPER_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_API_BASE=${OPENAI_API_BASE}
+      - OPENAI_MODEL_NAME=${OPENAI_MODEL_NAME}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - CELERY_SERVICE_ACCESS_PASSWORD=${CELERY_SERVICE_ACCESS_PASSWORD}
+    ports:
+      - "8000:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    networks:
+      - study_buddy_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"] # Replace with your app's health endpoint
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - study_buddy_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:17.2-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=eded404
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - study_buddy_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - study_buddy_network
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - study_buddy_network
+
+networks:
+  study_buddy_network:
+    driver: bridge
+
+volumes:
+  grafana-storage:
+  postgres-data:
+
