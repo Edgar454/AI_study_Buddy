@@ -11,7 +11,6 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 password = os.getenv("CELERY_SERVICE_ACCESS_PASSWORD")
 
-print(password)
 
 async def setup_services():
     db_pool = await asyncpg.create_pool(DATABASE_URL)

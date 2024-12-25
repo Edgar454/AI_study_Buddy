@@ -115,5 +115,5 @@ def on_task_failure(sender=None, exception=None, **kwargs):
     """
     task_id = sender.request.id
     url = f"{FASTAPI_BACKEND_URL}/{task_id}"
-    payload = {"error": str(exception)}
+    payload = {"result": str(exception)}
     notify_backend(url, payload)

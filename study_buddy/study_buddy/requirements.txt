@@ -7,3 +7,4 @@ passlib
 python-jose[cryptography]
 celery[redis]
 aioredis
+prometheus-fastapi-instrumentator

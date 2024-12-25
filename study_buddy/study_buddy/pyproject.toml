@@ -13,7 +13,8 @@ dependencies = [
     "passlib",
     "python-jose[cryptography]",
     "celery[redis]",
-    "aioredis"
+    "aioredis",
+    "prometheus-fastapi-instrumentator"
 
 ]
 
