@@ -2,7 +2,7 @@ import shutil
 from collections import deque
 from pathlib import Path
 from fastapi import APIRouter, Depends, HTTPException , UploadFile, File , Request
-from src.security import get_current_service , get_current_user
+from src.security import get_current_service , get_current_user , get_db_pool
 
 from celery.result import AsyncResult
 from src.celery_app import process_file_task , celery_app
@@ -75,6 +75,7 @@ async def update_task_result(task_id: str,
     processed_cache = request.app.state.processed_cache
     result = payload.get("result")
     user_id = result['user_id']
+    total_tokens = result['metadata']
     error = payload.get("error")
 
     # Update the cache for the user
@@ -90,5 +91,15 @@ async def update_task_result(task_id: str,
                 entry.update({"result": None})
                 entry.pop("task_id", None)
             break
+    
+    # add the activity related metrics to the databases
+    db_pool = await get_db_pool()
+    async with db_pool.acquire() as conn:              
+        await conn.execute(
+                        """
+                        INSERT INTO user_activity (user_id, tokens_used) 
+                        VALUES ($1, $2);
+                        """,user_id, total_tokens
+                        )
 
     return {"message": "Task result updated successfully!"}

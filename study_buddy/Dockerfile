@@ -20,12 +20,6 @@ RUN pip install -r requirements.txt && crewai install
 # Expose the application port for FastAPI
 EXPOSE 8000
 
-
-# Set the working directory to the 'src' folder, where app.py is located
-WORKDIR /study_buddy/src
-
-
-
 # Copy Supervisor configuration
 COPY supervisord.conf /etc/supervisord.conf
 

@@ -1,5 +1,11 @@
+import os
 from study_buddy.crew import StudyBuddy
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 
 async def process_study_material(file_path: Path):
     """

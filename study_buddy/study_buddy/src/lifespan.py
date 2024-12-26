@@ -1,11 +1,15 @@
 import os 
 import json
 import asyncpg
+import asyncio
 from collections import deque
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager , suppress
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from config import processed_cache , UPLOAD_DIR , CACHE_SIZE
+from config import  UPLOAD_DIR , CACHE_SIZE
+from src.metrics import  run_periodic_tasks , shutdown_event  
+import agentops
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -39,6 +43,8 @@ async def lifespan(app: FastAPI):
 
     app.state.db_pool = db_pool
     app.state.processed_cache = {}
+    # scrapping metrics periodicaly
+    asyncio.create_task(run_periodic_tasks())
 
     # Load recent results from the database into the cache
     async with db_pool.acquire() as conn:
@@ -52,7 +58,10 @@ async def lifespan(app: FastAPI):
                 "result": deserialized_result
             })
 
+    
     yield
+    shutdown_event.set()
+
     # Save recent results to the database on shutdown
     async with db_pool.acquire() as conn:
         for user_id, events in app.state.processed_cache.items():

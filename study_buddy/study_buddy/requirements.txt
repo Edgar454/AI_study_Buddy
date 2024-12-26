@@ -1,6 +1,6 @@
 crewai[tools]
 PyPDF2
-agentops
+langtrace-python-sdk
 python-multipart
 asyncpg
 passlib

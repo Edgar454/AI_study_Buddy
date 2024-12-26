@@ -1,11 +1,14 @@
 import os
 from jose import JWTError, jwt
 from passlib.hash import bcrypt
+from dotenv import load_dotenv
 from datetime import datetime, timedelta
 from fastapi import Depends , HTTPException , status
 from fastapi.security import OAuth2PasswordBearer
 import asyncpg
 
+# Load environment variables from .env file
+load_dotenv()
 
 # JWT configuration
 SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")  

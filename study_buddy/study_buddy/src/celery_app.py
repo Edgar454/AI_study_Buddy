@@ -6,6 +6,9 @@ from utils import process_study_material
 import os
 from cachetools import TTLCache
 import time
+import agentops
+agentops.init()
+
 
 from dotenv import load_dotenv
 
@@ -23,15 +26,15 @@ celery_app = Celery(
     backend= "redis://localhost:6379/0",
 )
 
-@celery_app.task
+@celery_app.task(autoretry_for=(Exception,) , max_retries=5)
 def process_file_task(file_path , user_id):
     """
     Background task for processing a file asynchronously using asyncio.
     """
     try:
-        result, _ = asyncio.run(process_study_material(file_path))
+        result, token_usage = asyncio.run(process_study_material(file_path))
         print(f"Processing completed")
-        return {"filename": file_path, "result": result , "user_id":user_id}
+        return {"filename": file_path, "result": result , "user_id":user_id ,"metadata":token_usage.total_tokens}
     except Exception as e:
         print(f"An error occurred: {e}")
         return {"error": str(e)}
