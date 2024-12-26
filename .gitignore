@@ -1,5 +1,6 @@
 **/.env
 **/.venv
+**/outputs
 study_buddy/.dockerignore
 study_buddy/study_buddy/.env
 study_buddy/study_buddy/.venv
