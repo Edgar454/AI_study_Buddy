@@ -21,6 +21,7 @@ async def lifespan(app: FastAPI):
     """
     Application lifespan context manager for initializing and cleaning up resources.
     """
+
     db_pool = await asyncpg.create_pool(DATABASE_URL)
     async with db_pool.acquire() as conn:
         # Create necessary tables

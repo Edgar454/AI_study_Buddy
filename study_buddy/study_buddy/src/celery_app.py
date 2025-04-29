@@ -6,9 +6,15 @@ from utils import process_file_main
 import os
 from cachetools import TTLCache
 import time
-
+from contextlib import contextmanager
 import agentops
-session = agentops.init()
+
+@contextmanager
+def agentops_session():
+    session = agentops.init()
+    yield session
+
+
 
 
 from dotenv import load_dotenv
@@ -33,10 +39,11 @@ def process_file_task(file_path , user_id , file_id):
     Background task for processing a file asynchronously using asyncio.
     """
     try:
-        # Run the async function inside the Celery task
-        result = asyncio.run(process_file_main(file_path, user_id, file_id))
-        return result
-    
+        with agentops_session() as session:
+            # Run the async function inside the Celery task
+            result = asyncio.run(process_file_main(file_path, user_id, file_id))
+            return result
+        
     except Exception as e:
         print(f"An error occurred: {e}")
         return {"error": str(e)}
