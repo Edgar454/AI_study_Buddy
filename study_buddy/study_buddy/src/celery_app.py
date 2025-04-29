@@ -2,12 +2,13 @@ from celery import Celery
 from celery.signals import task_success, task_failure
 import requests
 import asyncio
-from utils import process_study_material
+from utils import process_file_main
 import os
 from cachetools import TTLCache
 import time
+
 import agentops
-agentops.init()
+session = agentops.init()
 
 
 from dotenv import load_dotenv
@@ -27,14 +28,15 @@ celery_app = Celery(
 )
 
 @celery_app.task(autoretry_for=(Exception,) , max_retries=5)
-def process_file_task(file_path , user_id):
+def process_file_task(file_path , user_id , file_id):
     """
     Background task for processing a file asynchronously using asyncio.
     """
     try:
-        result, token_usage = asyncio.run(process_study_material(file_path))
-        print(f"Processing completed")
-        return {"filename": file_path, "result": result , "user_id":user_id ,"metadata":token_usage.total_tokens}
+        # Run the async function inside the Celery task
+        result = asyncio.run(process_file_main(file_path, user_id, file_id))
+        return result
+    
     except Exception as e:
         print(f"An error occurred: {e}")
         return {"error": str(e)}
@@ -95,6 +97,7 @@ def notify_backend(url, payload):
             response.raise_for_status()
             print(f"Notification sent successfully: {response.status_code}")
             return
+            
         except requests.RequestException as e:
             print(f"Attempt {attempt + 1} failed: {e}")
             if attempt == max_retries - 1:

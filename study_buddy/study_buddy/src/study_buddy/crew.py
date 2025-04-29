@@ -2,7 +2,12 @@ from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from study_buddy.tools.custom_tool import MaterialReadingTool , TavilyTool
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+GLHF_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME")
 
 from crewai_tools import (
     SerperDevTool,
@@ -24,7 +29,7 @@ class FlashcardsOutput(BaseModel):
 
 # LLM configuration
 llm = LLM(
-    model="gemini/gemini-1.5-pro",
+    model="openai/hf:deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
 )
 
 
@@ -56,7 +61,8 @@ class StudyBuddy():
 			config=self.agents_config['explaination_specialist'],
 			verbose=True,
 			tools=[search_tool, scrape_tool,tavily_tool],
-			llm = llm
+			llm = llm,
+			max_iter = 5
 		)
 
 	@agent

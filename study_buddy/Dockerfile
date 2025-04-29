@@ -1,5 +1,5 @@
 # Use a minimal Python base image
-FROM python:3.10-slim-bookworm
+FROM python:3.11-slim-bookworm
 
 # Set the working directory
 WORKDIR /study_buddy

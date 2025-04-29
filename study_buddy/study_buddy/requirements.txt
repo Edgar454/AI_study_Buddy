@@ -1,4 +1,3 @@
-crewai[tools]
 PyPDF2
 langtrace-python-sdk
 python-multipart

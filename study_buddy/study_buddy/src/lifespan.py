@@ -2,13 +2,13 @@ import os
 import json
 import asyncpg
 import asyncio
-from collections import deque
-from contextlib import asynccontextmanager , suppress
+from contextlib import asynccontextmanager 
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from config import  UPLOAD_DIR , CACHE_SIZE
+from config import  UPLOAD_DIR 
 from src.metrics import  run_periodic_tasks , shutdown_event  
-import agentops
+from src.utils import get_redis_client
+
 
 
 # Load environment variables from .env file
@@ -28,7 +28,8 @@ async def lifespan(app: FastAPI):
         CREATE TABLE IF NOT EXISTS users (
             id SERIAL PRIMARY KEY,
             username TEXT UNIQUE NOT NULL,
-            hashed_password TEXT NOT NULL , 
+            hashed_password TEXT NOT NULL ,
+            last_active TIMESTAMP DEFAULT NOW(), 
             role VARCHAR(50) DEFAULT 'user'
         )
         """)
@@ -40,9 +41,18 @@ async def lifespan(app: FastAPI):
             user_id INTEGER NOT NULL REFERENCES users(id)
         )
         """)
+        await conn.execute(""" 
+        CREATE TABLE IF NOT EXISTS user_activity (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER NOT NULL,
+            tokens_used INTEGER NOT NULL,
+            timestamp TIMESTAMP DEFAULT NOW(),
+            FOREIGN KEY (user_id) REFERENCES users(id)
+        )
+        """)
 
     app.state.db_pool = db_pool
-    app.state.processed_cache = {}
+    redis_client = await get_redis_client()
     # scrapping metrics periodicaly
     asyncio.create_task(run_periodic_tasks())
 
@@ -52,37 +62,39 @@ async def lifespan(app: FastAPI):
         SELECT user_id, filename, result FROM events
         """)
         for row in rows:
-            deserialized_result = json.loads(row["result"]) if isinstance(row["result"], str) else row["result"]
-            app.state.processed_cache.setdefault(row["user_id"], deque(maxlen=CACHE_SIZE)).append({
-                "filename": row["filename"],
-                "result": deserialized_result
-            })
+            await redis_client.hset(row["user_id"] , row["filename"] ,row["result"])
 
     
     yield
     shutdown_event.set()
+    user_ids = await redis_client.keys("user_id:*")
 
-    # Save recent results to the database on shutdown
     async with db_pool.acquire() as conn:
-        for user_id, events in app.state.processed_cache.items():
+        for user_id in user_ids:
+            raw_events = await redis_client.hgetall(user_id)
+            events = []
+            for file_id, result_bytes in raw_events.items():
+                result = json.loads(result_bytes.decode())
+                id = int(user_id.decode().split(":")[1])
+                events.append({"filename": file_id, "result": result, "user_id": id})
+
             for event in events:
                 result_json = json.dumps(event["result"])
                 await conn.execute("""
-                INSERT INTO events (filename, result, user_id)
-                VALUES ($1, $2, $3)
-                ON CONFLICT (id) DO NOTHING
-                """, event["filename"], result_json, user_id)
+                    INSERT INTO events (filename, result, user_id)
+                    VALUES ($1, $2, $3)
+                    ON CONFLICT (id) DO NOTHING
+                """, event["filename"].decode(), result_json, event["user_id"] )
 
-            # Retain only the last 5 results for each user in the database
             await conn.execute("""
-            DELETE FROM events
-            WHERE user_id = $1 AND id NOT IN (
-                SELECT id FROM events
-                WHERE user_id = $1
-                ORDER BY id DESC
-                LIMIT 5
-            )
-            """, user_id)
+                DELETE FROM events
+                WHERE user_id = $1 AND id NOT IN (
+                    SELECT id FROM events
+                    WHERE user_id = $1
+                    ORDER BY id DESC
+                    LIMIT 5
+                )
+            """, event["user_id"])
 
     await db_pool.close()
     UPLOAD_DIR.cleanup()
