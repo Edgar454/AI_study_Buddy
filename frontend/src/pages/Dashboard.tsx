@@ -6,8 +6,9 @@ import { useStudyStore } from '../stores/studyStore';
 import { useAuthStore } from '../stores/authStore';
 
 const Dashboard = () => {
-  const { fetchRecentResults, documentsProcessed } = useStudyStore();
+  const { fetchRecentResults, documentsProcessed  , recentResults } = useStudyStore();
   const { user } = useAuthStore();
+  const recentResultsLength = Object.keys(recentResults).length;
 
   useEffect(() => {
     fetchRecentResults();
@@ -29,7 +30,7 @@ const Dashboard = () => {
                 Upload your study materials and let our AI assistant help you understand them better.
               </p>
               
-              {documentsProcessed > 0 && (
+              {recentResultsLength > 0 && (
                 <div className="mt-4 p-3 bg-primary-50 rounded-lg border border-primary-100">
                   <div className="flex items-center">
                     <div className="mr-3 bg-primary-100 rounded-full p-2">
@@ -39,9 +40,9 @@ const Dashboard = () => {
                     </div>
                     <div>
                       <p className="font-medium text-primary-800">
-                        You've processed {documentsProcessed} document{documentsProcessed !== 1 ? 's' : ''}!
+                        You've processed {recentResultsLength} document{recentResultsLength !== 1 ? 's' : ''}!
                       </p>
-                      {documentsProcessed >= 5 && (
+                      {recentResultsLength >= 5 && (
                         <p className="text-sm text-primary-600">
                           You're on a roll! Keep going to reach more achievements.
                         </p>

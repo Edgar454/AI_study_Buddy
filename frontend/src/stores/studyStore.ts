@@ -116,7 +116,6 @@ export const useStudyStore = create<StudyState>((set, get) => ({
 
   fetchRecentResults: async () => {
     try {
-      console.log("useDemo is", get().useDemo);
       if (get().useDemo) {
         set({ recentResults: demoResults });
         return;

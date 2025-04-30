@@ -41,16 +41,6 @@ const ResultContent = ({ result }: ResultContentProps) => {
     }
   }, [activeTab, result.explanation]);
 
-  const parseJsonContentExplain = (jsonString: string) => {
-    try {
-      const cleanedString = jsonString.replace(/```json|```/g, '').trim();
-      console.log("cleanedString", cleanedString)
-      return JSON.parse(cleanedString);
-    } catch (error) {
-      console.error('Error parsing JSON:', error);
-      return null;
-    }
-  };
 
   const parseJsonContent = (raw) => {
     if (!raw || typeof raw !== "string") return null;
@@ -65,32 +55,11 @@ const ResultContent = ({ result }: ResultContentProps) => {
     // Remove ```json blocks
     if (clean.startsWith("```")) {
       clean = clean
-        .replace(/^```(json)?/, "") // remove opening ``` or ```json
-        .replace(/```$/, "")        // remove trailing ```
+        .replace(/^```(json)?/, "") 
+        .replace(/```$/, "")        
         .trim();
     }
     
-  
-    // Check for unterminated string before final brackets
-    const lastQuote = clean.lastIndexOf('"');
-    const lastColon = clean.lastIndexOf(':');
-  
-    const likelyBroken = clean.slice(lastColon, lastQuote).includes('verso');
-    if (likelyBroken && !clean.endsWith('"') && !clean.endsWith('"}]}')) {
-      // Trim to before broken string
-      const versoStart = clean.lastIndexOf('"verso"');
-      clean = clean.slice(0, versoStart).trim();
-  
-      // Add a placeholder verso and valid ending
-      clean += `"verso": "INCOMPLETE - truncated by model"}]}`
-    } else if (clean.endsWith('}')) {
-      // Do nothing here either.
-    }
-    else if (!clean.endsWith('}]}}')) {
-      // If just slightly off
-      clean += '"}]}}';
-    }
-    console.log("clean", clean)
     try {
       return JSON.parse(clean);
     } catch (e) {
@@ -99,10 +68,12 @@ const ResultContent = ({ result }: ResultContentProps) => {
     }
   };
   
-  
+
 
   const evaluationData = result.evaluation ? parseJsonContent(result.evaluation) : null;
   const flashcardsData = result.flashcard_building ? parseJsonContent(result.flashcard_building) : null;
+  
+  
 
   const tabs = [
     { id: 'explanation', label: 'Explanation', icon: <BookOpen size={18} /> },
@@ -144,35 +115,33 @@ const ResultContent = ({ result }: ResultContentProps) => {
     if (!evaluationData || !evaluationData.evaluation_dict) {
       return <p>No evaluation data available</p>;
     }
-
+  
     return (
       <div className="space-y-8">
         {Object.entries(evaluationData.evaluation_dict).map(([level, questions]: [string, any]) => (
           <div key={level} className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-800">{level} Level</h3>
-            
+  
             {questions.map((q: any, idx: number) => (
               <div key={idx} className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
                 <p className="font-medium text-gray-800 mb-3">{q.question}</p>
-                
+  
                 <div className="space-y-2">
                   {q.options.map((option: string, optIdx: number) => {
-                    const optionLetter = String.fromCharCode(97 + optIdx);
-                    const isSelected = selectedAnswers[`${level}-${idx}`] === optionLetter;
-                    const isCorrect = q.answer === optionLetter;
+                    const optionKey = `${level}-${idx}`;
+                    const isSelected = selectedAnswers[optionKey] === option;
+                    const isCorrect = q.answer === option;
                     const showResult = isSelected;
-                    
+  
                     return (
-                      <motion.div 
+                      <motion.div
                         key={optIdx}
-                        onClick={() => handleAnswerSelect(`${level}-${idx}`, optionLetter)}
+                        onClick={() => handleAnswerSelect(optionKey, option)}
                         className={`p-2 rounded-md flex items-start space-x-2 cursor-pointer transition-colors ${
                           showResult
                             ? isCorrect
                               ? 'bg-green-50 border border-green-200'
-                              : isSelected
-                              ? 'bg-red-50 border border-red-200'
-                              : 'bg-gray-50'
+                              : 'bg-red-50 border border-red-200'
                             : 'bg-gray-50 hover:bg-gray-100'
                         }`}
                         whileHover={{ scale: 1.01 }}
@@ -182,22 +151,18 @@ const ResultContent = ({ result }: ResultContentProps) => {
                           showResult
                             ? isCorrect
                               ? 'bg-green-500 text-white'
-                              : isSelected
-                              ? 'bg-red-500 text-white'
-                              : 'bg-gray-200 text-gray-700'
+                              : 'bg-red-500 text-white'
                             : 'bg-gray-200 text-gray-700'
                         }`}>
-                          {optionLetter}
+                          {String.fromCharCode(97 + optIdx)}
                         </div>
                         <p className={showResult
                           ? isCorrect
                             ? 'text-green-800'
-                            : isSelected
-                            ? 'text-red-800'
-                            : 'text-gray-700'
+                            : 'text-red-800'
                           : 'text-gray-700'
                         }>
-                          {option.substring(3)}
+                          {option} {/* or just `option` if you don't want to strip the letter */}
                         </p>
                       </motion.div>
                     );
@@ -210,15 +175,17 @@ const ResultContent = ({ result }: ResultContentProps) => {
       </div>
     );
   };
-
+  
   const renderFlashcards = () => {
-    if (!flashcardsData || !flashcardsData.flascard_dict) {
+    console.log(flashcardsData);
+    if (!flashcardsData || !flashcardsData.flashcard_dict) {
       return <p>No flashcard data available</p>;
     }
+    
 
     return (
       <div className="space-y-8">
-        {Object.entries(flashcardsData.flascard_dict).map(([level, cards]: [string, any]) => (
+        {Object.entries(flashcardsData.flashcard_dict).map(([level, cards]: [string, any]) => (
           <div key={level} className="space-y-4">
             <h3 className="text-lg font-semibold text-gray-800">{level} Level</h3>
             

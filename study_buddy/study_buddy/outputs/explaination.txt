@@ -1,101 +1,78 @@
-# Guide to Using Deepseek: An Interactive Learning Platform
+### Introduction: Le rôle d'un Data Scientist/Data Engineer dans la résolution de problèmes réels
 
-## Introduction: Enhancing Learning with Deepseek
+Imaginez-vous dans un monde où les données sont partout, mais leur exploitation est un défi. Les Data Scientists et Data Engineers sont les architectes qui transforment ces données brutes en informations précieuses pour résoudre des problèmes complexes. Par exemple, ils peuvent prédire la consommation d'énergie dans des zones rurales éloignées ou améliorer la prise de décision en utilisant des modèles de langage avancés. Ce CV présente un candidat junior qui possède les compétences techniques et les expériences nécessaires pour relever ces défis.
 
-Imagine a student named Alex who struggles with traditional textbook learning. One day, Alex discovers Deepseek, an interactive platform that transforms learning into an engaging adventure. Through quizzes, games, and simulations, Alex explores various subjects in a fun and effective way. Welcome to Deepseek, your gateway to interactive and personalized learning.
+### Compétences techniques: Les outils du métier
 
----
+#### Langages de programmation: Les bases de la science des données
+- **Python**: Le langage le plus utilisé en science des données. C'est comme un couteau suisse polyvalent pour traiter, analyser et modéliser des données.
+- **SQL**: Essentiel pour interagir avec les bases de données relationnelles. C'est comme savoir communiquer avec un bibliothécaire pour retrouver des informations spécifiques.
+- **R**: Idéal pour les analyses statistiques avancées. C'est comme avoir un assistant pour créer des visualisations et des modèles complexes.
 
-## 1. Introduction to Deepseek
+#### Outils de gestion de projet: Le ciment de l'équipe
+- **Git**: Pour gérer le code et collaborer en équipe. C'est comme avoir un système de versionning qui permet de suivre les modifications et de travailler ensemble sans conflits.
+- **Poetry**: Pour gérer les dépendances Python. C'est comme avoir un assistant qui s'assure que tous les outils nécessaires sont à jour et compatibles.
 
-**What is Deepseek?**  
-Deepseek is an online platform designed to make learning enjoyable and effective. It offers a variety of interactive activities across different subjects, helping students grasp concepts through hands-on experiences.
+#### Bibliothèques de science des données: Les outils de modélisation
+- **Scikit-learn**: Pour les modèles de machine learning classiques. C'est comme avoir une boîte à outils pour construire des modèles de classification, de régression, etc.
+- **TensorFlow & PyTorch**: Pour les réseaux de neurones profonds. C'est comme avoir un laboratoire pour créer des modèles d'apprentissage profond.
+- **Hugging Face**: Pour les modèles de langage pré-entraînés. C'est comme avoir une bibliothèque de modèles déjà formés pour traiter le langage naturel.
+- **Matplotlib**: Pour visualiser les données. C'est comme avoir un artiste qui transforme les données en graphiques compréhensibles.
 
-**Why Use Deepseek?**  
-In a world where traditional learning can feel monotonous, Deepseek stands out by making education engaging. It’s like having a personal tutor who also happens to be a game designer, ensuring that learning is both fun and effective.
+#### Outils d'ingénierie des données: La gestion des flux de données
+- **Spark**: Pour traiter de grandes quantités de données. C'est comme avoir une usine qui traite les données en parallèle pour gagner en efficacité.
+- **Airflow**: Pour planifier les workflows. C'est comme avoir un chef d'orchestre qui coordonne les tâches pour s'assurer que tout se déroule correctement.
+- **Kafka**: Pour gérer les flux de données en temps réel. C'est comme avoir un messager rapide qui transmet les informations instantanément.
 
----
+#### MLOPs: Le déploiement des modèles
+- **FastAPI**: Pour créer des API. C'est comme avoir un serveur web qui met les modèles à disposition des applications.
+- **Azure Cloud**: Pour héberger les solutions. C'est comme avoir un data center virtuel qui permet de stocker et de traiter les données à grande échelle.
 
-## 2. Getting Started: Creating an Account and Logging In
+#### Automation de l'interface utilisateur: L'automatisation des tâches
+- **UiPath**: Pour automatiser les tâches répétitives. C'est comme avoir un robot qui effectue les tâches manuelles à votre place.
 
-**Step 1: Creating Your Account**  
-1. Visit the Deepseek website.  
-2. Click on "Sign Up" and fill in the registration form with your details.  
-3. Confirm your email address to activate your account.  
+### Expériences professionnelles: Des défis réels relevés
 
-**Step 2: Logging In**  
-- Enter your username and password on the login page.  
-- Click "Login" to access the platform.  
+#### Data Scientist (stagiaire) chez MEDTECH
+- **Construction et optimisation de modèles d'IA**: Le candidat a construit des modèles pour extraire des informations d'images de chèques. C'est comme apprendre à un ordinateur à lire et à comprendre des documents financiers.
+- **Optimisation des ressources**: En utilisant des techniques de compression, le candidat a réduit la consommation de ressources tout en améliorant la performance. C'est comme rendre une voiture plus rapide et plus économe en carburant.
+- **Entraînement et optimisation du modèle**: Le modèle est devenu deux fois plus rapide et 10% plus précis. C'est comme améliorer la vitesse et la précision d'un système de reconnaissance faciale.
+- **Monitoring et explicabilité**: Le candidat a mis en place un framework pour analyser les résultats et expliquer les décisions du modèle. C'est comme avoir un système de suivi qui explique pourquoi certaines décisions sont prises.
+- **Documentation**: Le candidat a documenté tous les processus techniques. C'est comme laisser un manuel pour que les futurs utilisateurs puissent comprendre et maintenir le système.
 
-*Visual: A screenshot of the login page with annotations.*
+#### Statisticien (stagiaire) chez DDAEP
+- **Conception du questionnaire**: Le candidat a conçu un questionnaire pour recenser les cultures maraîchères. C'est comme préparer un formulaire pour collecter des informations agricoles.
+- **Formation des enquêteurs**: Le candidat a formé les enquêteurs pour s'assurer que les données sont collectées correctement. C'est comme former une équipe pour effectuer un sondage de qualité.
+- **Analyse des données et rédaction de rapport**: Le candidat a analysé les données et rédigé un rapport. C'est comme compiler les résultats d'un sondage et les présenter de manière claire.
 
----
+### Éducation: Les fondations solides
 
-## 3. Navigating the Platform
+- **Master en Data Science et Intelligence Artificielle**: Ce master a fourni les connaissances avancées en science des données et en IA. C'est comme avoir un diplôme qui vous permet de comprendre les algorithmes et les techniques les plus récentes.
+- **Licence en Statistique Appliquée**: Cette licence a fourni les bases en statistiques et en analyse de données. C'est comme avoir une base solide pour comprendre comment analyser et interpréter les données.
 
-**Dashboard: Your Learning Hub**  
-The dashboard is your starting point, displaying all available activities and resources. It’s like a personalized learning dashboard where you can track your progress and explore new content.
+### Projets: Des solutions concrètes à des problèmes réels
 
-**My Activities: Tailored for You**  
-This section lists activities assigned based on your interests and learning level. It’s like having a study plan that adapts to your needs.
+#### Prévision de la Consommation Énergétique
+- **Développement du modèle**: Le candidat a développé un modèle pour prédire la consommation d'énergie. C'est comme créer un système qui prédit combien d'électricité une communauté va consommer.
+- **Score RMSE de 6,7**: Ce score indique la précision du modèle. C'est comme avoir un système qui prédit la consommation avec une grande précision.
+- **Traitement de 39 millions de données**: Le candidat a traité une grande quantité de données. C'est comme gérer un énorme volume de données pour alimenter le modèle.
+- **Réduction de 50% de la taille des fichiers**: Le candidat a optimisé les données pour améliorer l'efficacité. C'est comme compresser des fichiers pour qu'ils soient plus faciles à gérer.
 
-**Resources: Expand Your Knowledge**  
-Access additional materials like articles, videos, and quizzes to deepen your understanding. It’s your one-stop shop for learning resources.
+#### Amélioration de la Prise de Décision Réglementaire
+- **Conception du système d'IA**: Le candidat a conçu un système pour numériser et faciliter l'accès aux archives. C'est comme créer un système qui aide à trouver des informations dans des documents anciens.
+- **Score de performance de 8,7/10**: Ce score indique la qualité des réponses générées. C'est comme avoir un système qui fournit des réponses pertinentes et claires.
+- **Collecte de données et prétraitement**: Le candidat a contribué à la collecte et au nettoyage des données. C'est comme préparer les ingrédients pour cuisiner un bon repas.
 
-*Visual: A diagram showing the layout of the dashboard.*
+### Conclusion: Un candidat polyvalent et compétent
 
----
+Ce CV présente un candidat junior avec des compétences solides en science des données et en ingénierie des données. Les expériences professionnelles et les projets réalisés démontrent sa capacité à appliquer ces compétences pour résoudre des problèmes complexes. Sa formation académique en statistique et en intelligence artificielle complète ses compétences techniques.
 
-## 4. Exploring Activities
+#### Applications concrètes
+- **Optimisation des ressources**: Les compétences en optimisation des modèles peuvent être appliquées à des problèmes comme la réduction de la consommation d'énergie.
+- **Amélioration de la prise de décision**: Les compétences en modèles de langage peuvent être appliquées à des problèmes comme la numérisation des archives et l'amélioration de l'accès à l'information.
 
-**Activity Categories: Diverse Subjects**  
-Deepseek covers a wide range of subjects, from science and math to literature. Whether you’re solving math problems or exploring scientific simulations, there’s something for everyone.
+#### Pistes d'exploration
+- **MLOPs**: Le candidat peut approfondir ses connaissances en MLOPs pour déployer des modèles à plus grande échelle.
+- **Outils d'ingénierie des données**: Le candidat peut explorer de nouveaux outils pour gérer les flux de données de manière plus efficace.
 
-**Activity Types: Engaging Formats**  
-- **Quizzes:** Test your knowledge with multiple-choice questions.  
-- **Games:** Learn through interactive games that make concepts memorable.  
-- **Simulations:** Experience real-world scenarios in a virtual environment.  
-- **Interactive Videos:** Watch and engage with educational videos.  
-
-**Activity Levels: Challenge Yourself**  
-Choose from easy, medium, or difficult levels to suit your skill level. It’s like leveling up in a game, where each level brings new challenges.
-
-**Tracking Progress: See How Far You’ve Come**  
-Monitor your progress as you complete activities. It’s motivating to see your achievements grow.
-
-*Visual: A flowchart showing activity categories and types.*
-
----
-
-## 5. Completing Activities
-
-**Following Instructions: Your Path to Success**  
-Each activity comes with clear instructions. Follow them step-by-step to complete tasks effectively.
-
-**Receiving Feedback: Learn from Your Mistakes**  
-Get instant feedback on your answers. Understand where you went wrong and how to improve. It’s like having a tutor who guides you through each step.
-
-**Earning Scores and Badges: Celebrate Your Achievements**  
-Earn points and badges for completing activities. These rewards make learning feel like an accomplishment.
-
-**Leaderboard: Compete and Connect**  
-Compare your scores with other students on the leaderboard. It’s a fun way to stay motivated and connected with peers.
-
-*Visual: A screenshot of a quiz with feedback examples.*
-
----
-
-## Conclusion: Your Learning Journey with Deepseek
-
-Deepseek is more than just a platform; it’s your partner in learning. With its interactive activities, personalized resources, and rewarding system, it makes education enjoyable and effective. Whether you’re a student looking to improve your grades or someone who loves learning, Deepseek offers a unique experience.
-
-**Practical Applications:**  
-- Use Deepseek to supplement your classroom learning.  
-- Explore different subjects to discover new interests.  
-- Compete with friends to make learning a fun challenge.  
-
-**Future Exploration:**  
-- Research how interactive platforms like Deepseek impact student engagement.  
-- Integrate Deepseek into classroom teaching methods for a blended learning approach.  
-
-Embark on your learning adventure with Deepseek today and experience education like never before!
+Ce candidat a le potentiel pour contribuer à des projets complexes et innover dans le domaine de la science des données et de l'ingénierie des données.

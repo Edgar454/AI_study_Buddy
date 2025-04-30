@@ -2,7 +2,7 @@ import asyncpg
 from fastapi import APIRouter, Depends, HTTPException , Request
 from passlib.hash import bcrypt
 from src.security import get_db_pool , get_current_user
-from src.utils import get_redis_client
+from src.utils import get_redis_client 
 
 router = APIRouter()
 
@@ -28,3 +28,4 @@ async def recent_results(request: Request ,current_user=Depends(get_current_user
     redis_client = await get_redis_client()
     processed_cache =  await redis_client.hgetall(f"user_id:{user_id}")
     return processed_cache
+

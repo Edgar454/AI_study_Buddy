@@ -1,27 +1,47 @@
-Introduction (What is the Material about?):
-The provided study material titled "Deepseek" is a guide on the use of an educational platform for students. The platform focuses on exploring various concepts and ideas in different fields of study, and aims to help students learn better through interactive and engaging activities.
+Voici un texte structuré comprenant une introduction, les sections principales et sous-sections, des explications enrichies pour chaque section, ainsi qu'une conclusion résumant les apprentissages clés.
 
-Main Sections (Organized into subsections, summarized into bullet points):
-1. Introduction to Deepseek:
-* Definition of Deepseek: An online platform designed to help students explore concepts in various fields.
-* Purpose of Deepseek: To enable students to learn through interactive and engaging activities.
-1. Creating an Account and Login:
-* Account creation process: Registration form and details required.
-* Login process: Username and password required to access the platform.
-1. Navigating the Platform:
-* Dashboard: Where all the activities and resources are displayed.
-* My Activities: Personalized activities and tasks assigned to the student.
-* Resources: Additional resources such as articles, videos, and quizzes.
-1. Exploring Activities:
-* Activity categories: Different fields of study such as science, math, and literature.
-* Activity types: Quizzes, games, simulations, and interactive videos.
-* Activity level: Easy, medium, and difficult levels.
-* Activity progress: Track progress through the completion of activities.
-1. Completing Activities:
-* Instructions: Follow provided instructions to complete the activity.
-* Feedback: Receive instant feedback and explanations on the answers.
-* Scores: Earn points and badges based on activity completion and accuracy.
-* Leaderboard: Compare scores with other students and track progress.
+**Introduction**
 
-Conclusion (Key Takeaways and Further Exploration):
-The Deepseek platform is an innovative way to help students learn and engage with the subject matter. The platform offers a variety of activities, resources, and tools to help students explore different concepts and ideas. To fully understand and utilize the platform, students are encouraged to create an account, explore the activities and resources, and complete the activities to earn points and badges. The platform's focus on personalized activities and feedback enables students to learn at their own pace and improve their understanding of the subject matter. Further exploration can include studying the platform's impact on student engagement and learning outcomes, as well as integrating the platform into classroom teaching methods.
+Le matériel d'étude fourni est un CV de Data Scientist/ Data Engineer Junior. Il présente les compétences et les expériences professionnelles d'un candidat dans le domaine de la science des données et de l'ingénierie des données.
+
+**Compétences**
+
+* Langages de programmation : Python, SQL, R
+* Outils de gestion de projet : Git, poetry
+* Bibliothèques de science des données : Scikit-learn, TensorFlow, Hugging Face, PyTorch, Matplotlib
+* Outils d'ingénierie des données : Spark, Airflow, Kafka
+* MLOPs : FastAPI, Azure Cloud
+* Automation de l'interface utilisateur : UiPath
+
+**Expériences professionnelles**
+
+* Data Scientist (stagiaire) chez MEDTECH (03/2024 - 09/2024)
+	+ Construction et optimisation de modèles d'IA pour l'extraction d'informations sur des images de chèques
+	+ Utilisation de techniques avancées de compression pour optimiser les ressources consommées par le modèle et la performance de celui-ci
+	+ Entraînement et optimisation du modèle pour obtenir un modèle deux fois plus rapide et de 10% plus précis
+	+ Mise en place d'un framework de monitoring et d'explicabilité pour analyser les résultats du modèle et expliquer les zones influençant les décisions du modèle
+	+ Documentation complète des processus techniques et des workflows
+* Statisticien (stagiaire) chez Direction Départementale de l'Agriculture de la Pêche et de l'Elevage du Borgou (DDAEP) (07/2021 - 08/2021)
+	+ Conception du questionnaire d'enquête sur le recensement des cultures maraîchères
+	+ Formation des enquêteurs
+	+ Analyse des données de l'enquête et rédaction de rapport
+
+**Éducation**
+
+* Master en Data Science et Intelligence Artificielle, Université Mundiapolis (2022 - 2024)
+* Licence en Statistique Appliquée, École Nationale de la Statistique de la Planification et de la Démographie (ENSPD) (2018 - 2021)
+
+**Projets**
+
+* Prévision de la Consommation Énergétique dans les Communautés Hors Réseau (Top 10%)
+	+ Développement d'un modèle avancé de prévision de la consommation d'énergie pour optimiser la gestion des ressources dans les zones rurales
+	+ Atteinte d'un score RMSE de 6,7, démontrant la précision du modèle dans des conditions réelles
+	+ Traitement de plus de 39 millions de données, avec une réduction de 50% de la taille des fichiers pour améliorer l'efficacité du traitement
+* Amélioration de la Prise de Décision Réglementaire via un Modèle de Langage de Type Retrieval-Augmented Generation (RAG) (Projet Collaboratif)
+	+ Conception d'un système d'IA pour numériser et faciliter l'accès aux archives historiques physiques
+	+ Obtention d'un score de performance de 8,7/10, basé sur la pertinence, la clarté et la précision des réponses générées par le modèle
+	+ Contribution à la collecte de données, au prétraitement des documents et à l'évaluation du modèle
+
+**Conclusion**
+
+Le CV présente un candidat avec des compétences solides en science des données et en ingénierie des données. Les expériences professionnelles et les projets réalisés démontrent la capacité du candidat à appliquer les concepts de science des données et d'ingénierie des données pour résoudre des problèmes complexes. La formation académique solide en statistique et en intelligence artificielle complète les compétences techniques du candidat.

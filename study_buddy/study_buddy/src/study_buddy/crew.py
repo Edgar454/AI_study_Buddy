@@ -2,6 +2,7 @@ from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 from study_buddy.tools.custom_tool import MaterialReadingTool , TavilyTool
 from pydantic import BaseModel, Field
+from typing import Dict, List
 from dotenv import load_dotenv
 import os
 
@@ -20,11 +21,28 @@ scrape_tool = ScrapeWebsiteTool()
 tavily_tool = TavilyTool()
 
 # Pydantic output class
+class Question(BaseModel):
+    question: str = Field(..., description="The text of the question")
+    options: List[str] = Field(..., description="List of answer options")
+    answer: str = Field(..., description="The correct answer option (e.g., 'a', 'b')")
+
+
 class EvaluationOutput(BaseModel):
-    evaluation_dict : dict = Field(..., description="The evaluation questions, containing questions sorted by level of difficulty")
+    evaluation_dict: Dict[str, List[Question]] = Field(
+        ..., description="The evaluation questions, categorized by difficulty level (e.g., Beginner, Intermediate, Advanced)"
+    )
+
+class Flashcard(BaseModel):
+    section: str = Field(..., description="The section of the course or topic")
+    recto: str = Field(..., description="The question or term shown on the front of the flashcard")
+    verso: str = Field(..., description="The answer or explanation on the back of the flashcard")
+
 
 class FlashcardsOutput(BaseModel):
-    flascard_dict : dict = Field(..., description="flashcards organisées par niveau de difficulté, avec des questions et réponses précises")
+    flashcard_dict: Dict[str, List[Flashcard]] = Field(
+        ..., description="The flashcards categorized by difficulty level (e.g., Beginner, Intermediate, Advanced)"
+    )
+
 
 
 # LLM configuration

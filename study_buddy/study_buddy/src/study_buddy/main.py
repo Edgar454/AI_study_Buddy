@@ -16,7 +16,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'study_material_path': 'materials/Course1_ChainesDeMarkov_DiscreteTime.pdf'
+        'study_material_path': r"C:\Users\mevae\OneDrive\Documents\deepseek.pdf"
     }
 
     StudyBuddy().crew().kickoff(inputs=inputs)
@@ -51,7 +51,8 @@ def test():
     Test the crew execution and returns the results.
     """
     inputs = {
-        'study_material_path': 'materials/Course1_ChainesDeMarkov_DiscreteTime.pdf'
+        'study_material_path': r"C:\Users\mevae\OneDrive\Documents\deepseek.pdf"
+
     }
     
     try:

@@ -55,7 +55,7 @@ evaluation_task:
     - Les propositions de réponse
     - La bonne réponse mise en évidence
   agent: evaluation_specialist
-  async_execution: True
+  
 
 
 flashcard_creation_task:
@@ -71,7 +71,7 @@ flashcard_creation_task:
   expected_output: >
     Un fichier JSON contenant les flashcards organisées par niveau de difficulté, avec des questions et réponses précises. 
   agent: flashcard_creator
-  async_execution: True
+  
 
 
 summary_creation_task:
