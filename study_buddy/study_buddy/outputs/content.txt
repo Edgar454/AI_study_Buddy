@@ -1,30 +1,53 @@
-Introduction:
+Meva'A Edgar Peggy is a Data Scientist and Junior Data Engineer with a passion for data science and artificial intelligence. They are looking for their first professional experience where they can apply their skills in data analysis, model optimization, and deployment of scalable architectures. Meva'A is a motivated and curious individual, ready to take on new challenges and contribute actively to innovative projects.
 
-The "sT0-Obedience-Checklist.pdf" is a study material that centers on obedience, a fundamental topic in human behavior, psychology, and sociology.
+Skills:
 
-Main Sections and Key Ideas:
+* Programming languages: Python, SQL, R
+* Project organization: Git, poetry
+* Data Science: Scikit learn, Tensorflow, Huggingface, Pytorch, Matplotlib
+* Data Engineering: Spark, Airflow, Kafka
+* MLOps: FastAPI, Azure cloud
+* UI Automation: UiPath
 
-1. Definition and Concept of Obedience:
-* Definition: Obedience is the act of following the authority (commands, instructions, or expectations) of individuals or entities, often conforming to rules, laws, traditions, or social norms.
-* Idea: Obedience can be voluntary or forced and is influenced by various factors, including context, culture, personal beliefs, and relationships with authority figures.
-1. Historical and Psychological Perspectives of Obedience:
-* Historical: Obedience in history is manifested in various forms, such as military hierarchy, religion, and government regulations. It often involves obeying the commands of a higher authority or authority figure.
-* Psychological: From a psychological perspective, factors contributing to obedience might include conformity, social pressure, personal beliefs, and a sense of duty or morality.
-1. Milgram Experiment and Obedience:
-* Idea: The Milgram Experiment is a famous study conducted by Stanley Milgram to understand the extent of human obedience to authority figures. The experiment revealed that 65% of participants followed the experimenter's instructions to deliver what they believed were harmful electric shocks to another participant.
-* Example: The experiment illustrates how situational pressure can induce people to obey orders even if it means causing serious harm to another individual.
-1. Disobedience and Its Importance:
-* Idea: Disobedience is the act of not following established rules or authorities, often seen when conditions require independent thinking or when authorities act in harmful or unjust ways.
-* Application: Understanding the concept of obedience and disobedience helps individuals make ethical decisions, acknowledge the consequences of their actions, and recognize their moral obligations.
+Technical Experience:
+Meva'A has gained considerable experience in their field through internships at various organizations:
 
-Conclusion:
+1. Data Scientist Intern at MEDTECH (Casablanca, Maroc) from 03 2024 to 09 2024:
+* Built and optimized AI models for information extraction on images of checks
+* Used advanced compression techniques to optimize resources consumed by the model and improve its performance
+* Trained and optimized models to obtain a model that is twice as fast and ten times more resource-efficient
+* Developed a monitoring and explanation framework for analyzing the model results and explaining the zones influencing the model decisions
+* Created complete documentation of technical processes and workflows
+1. Statistician Intern at Direction Départementale de l’Agriculture de la Pêche et de l’Elevage du Borgou (DDAEP) (Parakou, Bénin) from 07 2021 to 08 2021:
+* Designed the survey questionnaire on the census of market garden crops
+* Led the training of surveyors
+* Analyzed the survey data and wrote the final report
 
-Understanding obedience, its historical and psychological aspects, and its relationship with disobedience is crucial for ethical decision-making. This study material provides important insights into human behavior, prompting us to reflect on the role of obedience in our society and personal lives.
+Education:
 
-To further explore this topic, consider the following questions:
+* Master's degree in Data Science and Artificial Intelligence from Université Mundiapolis, from 2022 to 2024
+* Bachelor's degree in Applied Statistics, from Ecole Nationale de la Statistique de la Planification et de la Démographie (ENSPD) from 2018 to 2021
 
-* How might cultural differences influence the degree of obedience in a society?
-* What factors can make someone challenge authority even when obedience is expected?
-* In what ways does understanding obedience contribute to moral development and ethical decision-making?
+Projects:
 
-These questions encourage deeper exploration and analysis of the study material, allowing educators, practitioners, and students to enhance their understanding of the complex concept of obedience.
+* *Predicting Energy Consumption in Off-Grid Communities (Top 10%)*: This project aimed to develop an advanced model for forecasting energy consumption in rural areas by combining data from micro-hydropower plants and climatic indicators.
+* *Improving Regulatory Decision Making using a Retrieval-Augmented Generation (RAG) Language Model (Collaborative Project)*: This project involved designing an AI system for digitizing and facilitating access to historical physical archives, to enable faster and more accurate decision-making for regulatory authorities.
+* *GeoAI Ground-level NO2 Estimation Challenge (Top 10%)*: The objective of this project was to develop a machine learning model to estimate the ground-level concentration of NO2 using publicly available satellite data.
+
+Additional Information:
+
+* Portfolio: <https://MathtoData.com>
+* GitHub: <https://github.com/Edgar454>
+* LinkedIn: <https://www.linkedin.com/in/mevaedgar/>
+
+The study material contains Meva'A's resume, which includes information on skills, technical experience, education, and notable projects. The provided information indicates that Meva'A is a skilled data scientist and engineer with experience in a variety of data science and engineering tools. Moreover, Meva'A has completed numerous projects demonstrating their expertise in model creation, data manipulation, and advanced methods for data extraction and analysis.
+
+To gain deeper insights into Meva'A's work, additional research could be performed on their GitHub and LinkedIn profiles. By examining Meva'A's shared code repositories, you can understand their coding style and how they approach problem-solving. LinkedIn can also provide information about Meva'A's connections and collaborations within the data science community.
+
+Finally, to further explore Meva'A's capabilities, you could invite them for an interview to discuss their achievements, how they handle challenges, and their plans for the future. Despite the fact that the study material is a resume, the content is rich enough to guide detailed explorations and questions, making the information easily reusable by other agents or users.
+
+Sources:
+
+* <https://MathtoData.com>
+* <https://github.com/Edgar454>
+* <https://www.linkedin.com/in/mevaedgar/>

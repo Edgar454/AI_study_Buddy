@@ -22,11 +22,14 @@ async def process_material(request: Request,file: UploadFile = File(...), curren
     user_id = current_user["id"]
     
     try:
+        
         file_path = Path(UPLOAD_DIR.name) / file.filename
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        file_hash = get_file_hash(file.file)
+        file_hash = get_file_hash(file_path)
+        print(f"File hash: {file_hash}")
+        print(f"Processing file : {file.filename}")
 
         # Call the Celery task
         task = process_file_task.delay(file_path = str(file_path),

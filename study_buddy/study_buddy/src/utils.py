@@ -40,11 +40,11 @@ async def get_redis_client():
 
 
 # hash the file content to check if it has already been processed
-def get_file_hash(file_obj, chunk_size: int = 8192) -> str:
+def get_file_hash(file_path: Path, chunk_size: int = 8192) -> str:
     sha256 = hashlib.sha256()
-    while chunk := file_obj.read(chunk_size):
-        sha256.update(chunk)
-    file_obj.seek(0)  
+    with open(file_path, "rb") as f:
+        while chunk := f.read(chunk_size):
+            sha256.update(chunk)
     return sha256.hexdigest()
 
 # celery task to process the file
