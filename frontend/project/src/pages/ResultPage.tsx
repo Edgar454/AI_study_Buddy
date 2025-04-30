@@ -36,7 +36,6 @@ const ResultPage = () => {
         try {
           const result = JSON.parse(rawData);
           setCurrentResult({"result": result});
-          console.log('flashcards_dict', result?.flashcard_building);
         } catch (e) {
           console.error('Failed to parse result JSON for', fileId, e);
           setCurrentResult(null);

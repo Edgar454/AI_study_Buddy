@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BookOpen, Award, Brain, FileDigit, CheckSquare } from 'lucide-react';
+import { BookOpen, Award, Brain, FileDigit, CheckSquare, Maximize } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import Markdown from 'react-markdown'
+import "./components.css"
 
 interface ResultContentProps {
   result: {
@@ -35,7 +35,7 @@ const ResultContent = ({ result }: ResultContentProps) => {
         } else {
           clearInterval(interval);
         }
-      }, 20); // Adjust speed as needed
+      }, 0.1); // Adjust speed as needed
 
       return () => clearInterval(interval);
     }
@@ -63,9 +63,13 @@ const ResultContent = ({ result }: ResultContentProps) => {
     }
   
     // Remove ```json blocks
-    if (clean.startsWith("```json")) {
-      clean = clean.replace(/^```json/, "").replace(/```$/, "").trim();
+    if (clean.startsWith("```")) {
+      clean = clean
+        .replace(/^```(json)?/, "") // remove opening ``` or ```json
+        .replace(/```$/, "")        // remove trailing ```
+        .trim();
     }
+    
   
     // Check for unterminated string before final brackets
     const lastQuote = clean.lastIndexOf('"');
@@ -79,12 +83,14 @@ const ResultContent = ({ result }: ResultContentProps) => {
   
       // Add a placeholder verso and valid ending
       clean += `"verso": "INCOMPLETE - truncated by model"}]}`
-    } else if (!clean.endsWith('}]}}')) {
+    } else if (clean.endsWith('}')) {
+      // Do nothing here either.
+    }
+    else if (!clean.endsWith('}]}}')) {
       // If just slightly off
       clean += '"}]}}';
     }
-    
-    console.log("flashcard text", clean)
+    console.log("clean", clean)
     try {
       return JSON.parse(clean);
     } catch (e) {
@@ -95,7 +101,7 @@ const ResultContent = ({ result }: ResultContentProps) => {
   
   
 
-  const evaluationData = result.evaluation ? parseJsonContentExplain(result.evaluation) : null;
+  const evaluationData = result.evaluation ? parseJsonContent(result.evaluation) : null;
   const flashcardsData = result.flashcard_building ? parseJsonContent(result.flashcard_building) : null;
 
   const tabs = [
@@ -118,6 +124,21 @@ const ResultContent = ({ result }: ResultContentProps) => {
       [cardId]: !prev[cardId]
     }));
   };
+
+  const getCaseInsensitiveValue = (obj: Record<string, any>, ...possibleKeys: string[]): any => {
+    const lowerCased = Object.keys(obj).reduce((acc, key) => {
+      acc[key.toLowerCase()] = key;
+      return acc;
+    }, {} as Record<string, string>);
+  
+    for (const k of possibleKeys) {
+      const actualKey = lowerCased[k.toLowerCase()];
+      if (actualKey && obj[actualKey] !== undefined) return obj[actualKey];
+    }
+  
+    return undefined;
+  };
+  
 
   const renderEvaluation = () => {
     if (!evaluationData || !evaluationData.evaluation_dict) {
@@ -209,38 +230,43 @@ const ResultContent = ({ result }: ResultContentProps) => {
                 return (
                   <motion.div
                     key={idx}
-                    className="relative h-64 cursor-pointer"
+                    className="relative h-64 cursor-pointer perspective"
                     onClick={() => toggleCard(cardId)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
                   >
-                    <AnimatePresence initial={false} mode="wait">
-                      <motion.div
-                        key={isFlipped ? 'back' : 'front'}
-                        initial={{ rotateY: isFlipped ? -180 : 0, opacity: 0 }}
-                        animate={{ rotateY: isFlipped ? 0 : 180, opacity: 1 }}
-                        exit={{ rotateY: isFlipped ? 180 : -180, opacity: 0 }}
-                        transition={{ duration: 0.4 }}
-                        className="absolute inset-0 w-full h-full backface-hidden"
-                      >
-                        <div className="h-full bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-                          <div className="bg-primary-50 p-3 border-b border-primary-100">
-                            <p className="text-sm text-primary-800 font-medium">
-                              {card.section}
-                            </p>
-                          </div>
-                          <div className="p-4">
-                            <p className="font-medium text-gray-800">
-                              {isFlipped ? card.verso : card.recto}
-                            </p>
-                            <p className="text-sm text-gray-500 mt-2">
-                              Click to {isFlipped ? 'see question' : 'reveal answer'}
-                            </p>
-                          </div>
+                    <motion.div
+                      className={`relative w-full h-full transition-transform duration-500 transform-style-preserve-3d ${
+                        isFlipped ? "rotate-y-180" : ""
+                      }`}
+                    >
+                      {/* Front */}
+                      <div className="absolute w-full h-full backface-hidden bg-white rounded-lg shadow-sm border border-gray-100">
+                        <div className="bg-primary-50 p-3 border-b border-primary-100">
+                          <p className="text-sm text-primary-800 font-medium">
+                          {getCaseInsensitiveValue(card, "section")}
+                          </p>
                         </div>
-                      </motion.div>
-                    </AnimatePresence>
+                        <div className="p-4">
+                          <p className="font-medium text-gray-800">{getCaseInsensitiveValue(card, "recto","front","question", "Recto (Question)")}
+                          </p>
+                          <p className="text-sm text-gray-500 mt-2">Click to reveal answer</p>
+                        </div>
+                      </div>
+
+                      {/* Back */}
+                      <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-white rounded-lg shadow-sm border border-gray-100">
+                        <div className="bg-primary-50 p-3 border-b border-primary-100">
+                          <p className="text-sm text-primary-800 font-medium">
+                            {card.section||card?.Section}
+                          </p>
+                        </div>
+                        <div className="p-4">
+                          <p className="font-medium text-gray-800">{getCaseInsensitiveValue(card, "verso","back", "answer", "Verso (Réponse)")}</p>
+                          <p className="text-sm text-gray-500 mt-2">Click to see question</p>
+                        </div>
+                      </div>
+                    </motion.div>
                   </motion.div>
+
                 );
               })}
             </div>
@@ -249,7 +275,7 @@ const ResultContent = ({ result }: ResultContentProps) => {
       </div>
     );
   };
-
+  
   return (
     <div className="bg-white rounded-xl shadow-soft p-6">
       <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mb-6">
@@ -279,7 +305,7 @@ const ResultContent = ({ result }: ResultContentProps) => {
       >
         {activeTab === 'explanation' && (
           <div className="prose max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{visibleText}</ReactMarkdown>
+            <Markdown>{visibleText}</Markdown>
           </div>
         )}
 

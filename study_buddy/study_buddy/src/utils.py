@@ -5,6 +5,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 from redis.asyncio import Redis
 import hashlib
+import datetime
+from typing import Optional
+from src.security import get_db_pool
 
 
 # Load environment variables from .env file
@@ -75,3 +78,34 @@ async def process_file_main(file_path: Path, user_id: str, file_id: str):
     
 
 
+# get the login streak of the user
+async def get_login_streak(user_id: str) -> Optional[int]:
+    """
+    Get the login streak of the user.
+    """
+    db_pool = await get_db_pool()
+    
+    # Acquire a connection from the pool
+    async with db_pool.acquire() as conn:
+        # Query the last active date for the user
+        last_active = await conn.fetchval(
+            """
+            SELECT last_active
+            FROM your_table
+            WHERE user = $1
+            LIMIT 1;
+            """, user_id
+        )
+        
+        if last_active:
+            if isinstance(last_active, str):
+                last_active = datetime.strptime(last_active, '%Y-%m-%d %H:%M:%S')  
+            
+            # Get today's date
+            today = datetime.utcnow()
+            
+            # Calculate the difference in days
+            diff = today - last_active
+            return diff.days
+        else:
+            return None

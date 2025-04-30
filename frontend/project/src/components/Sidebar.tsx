@@ -5,8 +5,9 @@ import { useStudyStore } from '../stores/studyStore';
 import { useAuthStore } from '../stores/authStore';
 import { motion } from 'framer-motion';
 
+
 const Sidebar = () => {
-  const { recentResults, fetchRecentResults, documentsProcessed, currentStreak } = useStudyStore();
+  const { recentResults, fetchRecentResults, currentStreak } = useStudyStore();
   const { logout, user } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,7 +61,7 @@ const Sidebar = () => {
           </div>
           <div>
             <p className="text-xs text-gray-500">Documents</p>
-            <p className="font-medium">{documentsProcessed}</p>
+            <p className="font-medium">{Object.keys(recentResults).length}</p>
           </div>
         </motion.div>
         
@@ -90,7 +91,7 @@ const Sidebar = () => {
           </div>
           <div>
             <p className="text-xs text-gray-500">Reward Level</p>
-            <p className="font-medium">{getRewardLevel(documentsProcessed)}</p>
+            <p className="font-medium">{getRewardLevel(Object.keys(recentResults).length)}</p>
           </div>
         </motion.div>
       </div>
