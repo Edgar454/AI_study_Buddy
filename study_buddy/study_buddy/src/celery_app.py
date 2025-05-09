@@ -2,7 +2,7 @@ from celery import Celery
 from celery.signals import task_success, task_failure
 import requests
 import asyncio
-from utils import process_file_main
+from src.utils import process_file_main
 import os
 from cachetools import TTLCache
 import time

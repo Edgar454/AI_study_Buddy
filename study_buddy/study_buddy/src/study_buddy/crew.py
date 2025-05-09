@@ -1,14 +1,18 @@
 from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
-from study_buddy.tools.custom_tool import MaterialReadingTool , TavilyTool
+from src.study_buddy.tools.custom_tool import MaterialReadingTool , TavilyTool
 from pydantic import BaseModel, Field
 from typing import Dict, List
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
+os.environ['LITELLM_LOG'] = 'DEBUG'
 
-GLHF_MODEL_NAME = os.getenv("OPENAI_MODEL_NAME")
+GHLF_API_KEY = os.getenv("OPENAI_API_KEY")
+GLHF_MAIN_MODEL_NAME = os.getenv("OPENAI_MAIN_MODEL_NAME")
+GLHF_EXPLANATION_MODEL_NAME = os.getenv("OPENAI_EXPLANATION_MODEL")
+
 
 from crewai_tools import (
     SerperDevTool,
@@ -44,11 +48,17 @@ class FlashcardsOutput(BaseModel):
     )
 
 
+main_llm = LLM(
+    model=GLHF_MAIN_MODEL_NAME,
+    temperature=0.7
+)
 
 # LLM configuration
-llm = LLM(
-    model="openai/hf:deepseek-ai/DeepSeek-R1-Distill-Llama-70B",
+explanation_llm = LLM(
+    model= GLHF_EXPLANATION_MODEL_NAME,
+	temperature=0.4,
 )
+
 
 
 # If you want to run a snippet of code before or after the crew starts, 
@@ -70,7 +80,9 @@ class StudyBuddy():
 		return Agent(
 			config=self.agents_config['ingestion_agent'],
 			verbose=True,
-			tools=[material_reading_tool, search_tool , scrape_tool]
+			tools=[material_reading_tool, search_tool , scrape_tool],
+			llm= main_llm
+            
 		)
 
 	@agent
@@ -79,7 +91,7 @@ class StudyBuddy():
 			config=self.agents_config['explaination_specialist'],
 			verbose=True,
 			tools=[search_tool, scrape_tool,tavily_tool],
-			llm = llm,
+			llm = explanation_llm,
 			max_iter = 5
 		)
 
@@ -88,26 +100,30 @@ class StudyBuddy():
 		return Agent(
 			config=self.agents_config['evaluation_specialist'],
 			verbose=True,
+			llm=main_llm,
 		)
 	
 	@agent
 	def flashcard_creator(self) -> Agent:
 		return Agent(
 			config=self.agents_config['flashcard_creator'],
-			verbose=True
+			verbose=True,
+			llm=main_llm,
+            
 		)
 	@agent
 	def summarizer(self) -> Agent:
 		return Agent(
 			config=self.agents_config['summarizer'],
-			verbose=True
+			verbose=True,
+			llm=main_llm,
+            
 		)
 	
 	@task
 	def ingestion_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['ingestion_task'],
-			output_file='outputs/content.txt'
 
 		)
 
@@ -115,7 +131,6 @@ class StudyBuddy():
 	def explanation_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['explanation_task'],
-			output_file='outputs/explaination.txt',
 			context = [self.ingestion_task()]
 		)
 
@@ -125,7 +140,6 @@ class StudyBuddy():
 			config=self.tasks_config['evaluation_task'],
 			context = [self.ingestion_task() , self.explanation_task()],
 			output_pydantic = EvaluationOutput ,
-			output_file='outputs/tests.json'
 		)
 	
 	@task
@@ -134,7 +148,6 @@ class StudyBuddy():
 			config=self.tasks_config['flashcard_creation_task'],
 			context = [self.ingestion_task() , self.explanation_task()],
 			output_pydantic = FlashcardsOutput ,
-			output_file='outputs/card.json'
 		)
 	
 	@task

@@ -1,6 +1,6 @@
 import os
 import json
-from study_buddy.crew import StudyBuddy
+from src.study_buddy.crew import StudyBuddy
 from pathlib import Path
 from dotenv import load_dotenv
 from redis.asyncio import Redis

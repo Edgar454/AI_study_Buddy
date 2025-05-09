@@ -79,7 +79,7 @@ async def update_task_result(task_id: str,
     Update the task result in the cache.
     """
     result = payload.get("result")
-    if result['user_id']:
+    if result.get('user_id'):
         user_id = result['user_id']
         total_tokens = result['metadata']
         

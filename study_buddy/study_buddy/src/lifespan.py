@@ -5,7 +5,7 @@ import asyncio
 from contextlib import asynccontextmanager 
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from config import  UPLOAD_DIR 
+from src.config import  UPLOAD_DIR 
 from src.metrics import  run_periodic_tasks , shutdown_event  
 from src.utils import get_redis_client
 

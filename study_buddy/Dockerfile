@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copy application code and install dependencies
 COPY study_buddy/ /study_buddy/
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install --user -r requirements.txt && crewai install
+COPY study_buddy/requirements.txt .
+RUN pip install --upgrade pip && pip install --user -r requirements.txt 
+
 
 # --- Stage 2: Runtime environment ---
 FROM python:3.11-slim-bookworm AS runtime
@@ -27,6 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY --from=builder /root/.local /root/.local
 ENV PATH="/root/.local/bin:$PATH"
 
+RUN crewai install
+
 # Copy application code and supervisor config
 COPY study_buddy/ /study_buddy/
 COPY supervisord.conf /etc/supervisord.conf
@@ -35,4 +38,4 @@ COPY supervisord.conf /etc/supervisord.conf
 EXPOSE 8000
 
 # Start app and Celery via supervisor
-CMD ["supervisord", "-c", "/etc/supervisord.conf"]
+CMD ["sh", "-c", "crewai install && supervisord -c /etc/supervisord.conf"]
