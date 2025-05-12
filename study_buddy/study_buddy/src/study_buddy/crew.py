@@ -10,8 +10,10 @@ load_dotenv()
 os.environ['LITELLM_LOG'] = 'DEBUG'
 
 GHLF_API_KEY = os.getenv("OPENAI_API_KEY")
+GLHF_API_BASE_URL = os.getenv("OPENAI_API_BASE")	
 GLHF_MAIN_MODEL_NAME = os.getenv("OPENAI_MAIN_MODEL_NAME")
 GLHF_EXPLANATION_MODEL_NAME = os.getenv("OPENAI_EXPLANATION_MODEL")
+
 
 
 from crewai_tools import (
@@ -50,13 +52,17 @@ class FlashcardsOutput(BaseModel):
 
 main_llm = LLM(
     model=GLHF_MAIN_MODEL_NAME,
-    temperature=0.7
+	base_url=GLHF_API_BASE_URL,
+    temperature=0.7,
+	api_key=GHLF_API_KEY
 )
 
 # LLM configuration
 explanation_llm = LLM(
     model= GLHF_EXPLANATION_MODEL_NAME,
+	base_url=GLHF_API_BASE_URL,
 	temperature=0.4,
+	api_key=GHLF_API_KEY
 )
 
 

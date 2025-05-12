@@ -29,7 +29,7 @@ services:
       - study_buddy_network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/"] 
-      interval: 30s
+      interval: 40s
       timeout: 10s
       retries: 3
 
