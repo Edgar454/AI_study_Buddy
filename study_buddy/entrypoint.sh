@@ -13,7 +13,7 @@ until curl -s http://localhost:8000/ > /dev/null; do
 done
 
 echo "FastAPI is ready. Running setup_roles.py..."
-python /study_buddy/src/setup_services.py
+python /app/src/setup_services.py
 
 # Keep container alive by waiting on Supervisor
 wait

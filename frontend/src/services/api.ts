@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000'; // Replace with your FastAPI server URL
+const API_URL = '/api'; // Replace with your FastAPI server URL
 
 // Get the current token from localStorage
 const getAuthToken = () => {

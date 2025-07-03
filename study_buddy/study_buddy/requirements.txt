@@ -1,4 +1,4 @@
-crewai[tools]
+crewai[tools]==0.86.0
 redis 
 PyPDF2 
 python-dotenv 

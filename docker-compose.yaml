@@ -66,6 +66,18 @@ services:
       timeout: 10s
       retries: 10
       
+  postgres-exporter:
+    image: quay.io/prometheuscommunity/postgres-exporter
+    container_name: postgres_exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?sslmode=disable"
+    depends_on:
+      - postgres
+    ports:
+      - "9187:9187"
+    networks:
+      - study_buddy_network
+      
   frontend:
     build:
       context: ./frontend

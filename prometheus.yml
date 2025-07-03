@@ -4,12 +4,8 @@ global:
 scrape_configs:
   - job_name: 'fastapi'
     static_configs:
-      - targets: ['my-app:8000']  # Replace with your service name and port
-
-  - job_name: 'redis'
-    static_configs:
-      - targets: ['redis:6379']  # Replace with your service name and port
+      - targets: ['my-app:8000']  
 
   - job_name: 'postgres'
     static_configs:
-      - targets: ['postgres:5432']  # Replace with your service name and port
+      - targets: ['postgres-exporter:9187'] 

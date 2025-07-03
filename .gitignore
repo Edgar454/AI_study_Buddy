@@ -9,4 +9,5 @@ study_buddy/study_buddy/trained_agents_data.pkl
 study_buddy/study_buddy/agentops.log
 study_buddy/study_buddy/src/__pycache__/
 study_buddy/study_buddy/src/.env
+node_modules/
 
