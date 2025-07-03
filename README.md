@@ -122,7 +122,7 @@ Then open:
 
 ## 🎬 Demo
 
-https://github.com/user-attachments/assets/fc72531c-7ec0-4424-b831-b5b38505793d
+https://github.com/user-attachments/assets/4f99a4f6-9b09-4290-93cd-061d65d69dd5
 
 ---
 
