@@ -68,7 +68,6 @@ Upon app shutdown, recent results are saved from Redis into PostgreSQL.
 
 ## 📊 Monitoring
 
-![Monitoring System Placeholder](./images/monitoring.png)
 
 Metrics collected via **Prometheus**:
 - Request counts (success/failures)
