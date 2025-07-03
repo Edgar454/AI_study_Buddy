@@ -122,7 +122,7 @@ Then open:
 
 ## 🎬 Demo
 
-![Demo GIF Placeholder](./images/demo.gif)
+https://github.com/user-attachments/assets/fc72531c-7ec0-4424-b831-b5b38505793d
 
 ---
 
